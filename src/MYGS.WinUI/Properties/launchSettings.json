@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "MYGS.WinUI (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "MYGS.WinUI (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}
