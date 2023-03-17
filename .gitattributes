@@ -1,0 +1,186 @@
+#####################################################################
+# Default
+#
+# Set the default behavior to automatically normalize line endings.
+# If Git decides the content of a file is text, its line endings are 
+# converted to LF on checkin. When the file has been committed with
+# CRLF, no conversion is done. This only modifies files on checkin; 
+# affecting files in the repository, but not the working directory.
+#
+# This setting is better than relying on .gitconfig's core.autocrlf
+# setting because .gitattributes is part of a repository. Relying
+# on a user to correctly set their .gitconfig is dangerous.
+#
+# This handles all files not specified in the rest of this file.
+#####################################################################
+*          text=auto
+
+#####################################################################
+# When git shows you diff information it gives you some context as 
+# to where in the code the diff lives. Setting this tells Git to be 
+# a little smarter about tailoring this for a specific language.
+#
+# This behavior is now the default for newer versions of git, but is
+# included here for legacy support.
+#####################################################################
+*.cs text diff=csharp
+
+#####################################################################
+# Scripts
+#
+# eol governs the normalization of line endings for files being
+# checked out to the working directory. In general, most IDEs and
+# text editors will operate and respect any line endings used. And
+# core.autocrlf will govern a user's individual preferences for their
+# own working directory.
+#
+# For certain types of scripts, which could be accessed over file 
+# shares from a different operating system, forcing the line endings 
+# of the script's associated file system.
+#
+# Line endings are still normalized to LF during checkin.
+#####################################################################
+# Force scripts to use LF line endings so that if a repo is accessed
+# in Linux via a file share from Windows, the scripts will work.
+*.bash     text eol=lf
+*.fish     text eol=lf
+*.sh       text eol=lf
+# Force scripts to use CRLF line endings so that if a repo is accessed
+# in Windows via a file share from Linux, the scripts will work.
+*.bat      text eol=crlf
+*.BAT      text eol=crlf
+*.cmd      text eol=crlf
+*.CMD      text eol=crlf
+*.ps1      text eol=crlf
+*.PS1      text eol=crlf
+
+#####################################################################
+# Documents
+#
+# diff behavior for common document formats.
+#
+# Convert binary document formats to text before diffing them. This 
+# feature is only available when calling 'git diff' from the command
+# line. GUI programs will use their own methods.
+#
+# bibtex and tex use built-in diff conversions that are part of git.
+# The astextplain conversion is only available through Git for
+# Windows.
+#####################################################################
+*.bibtex   text diff=bibtex
+*.tex      text diff=tex
+*.doc      diff=astextplain
+*.DOC      diff=astextplain
+*.docx     diff=astextplain
+*.DOCX     diff=astextplain
+*.dot      diff=astextplain
+*.DOT      diff=astextplain
+*.pdf      diff=astextplain
+*.PDF      diff=astextplain
+*.rtf      diff=astextplain
+*.RTF      diff=astextplain
+*.md       text
+*.adoc     text
+*.textile  text
+*.mustache text
+*.csv      text
+*.tab      text
+*.tsv      text
+*.txt      text
+*.sql      text
+
+#####################################################################
+# Serialization
+#####################################################################
+*.json     text
+*.toml     text
+*.xml      text
+*.yaml     text
+*.yml      text
+
+# Text files where line endings should be preserved
+*.patch    -text
+
+#####################################################################
+# Graphics
+#
+# Git usually guesses correctly whether a blob contains text or 
+# binary data by examining the beginning of the contents. However, 
+# sometimes you may want to override its decision, either because a 
+# blob contains binary data later in the file, or because the 
+# content, while technically composed of text characters, is opaque 
+# to a human reader.
+#
+# You do not want any end-of-line conversions applied to, nor textual 
+# diffs produced for, any binary file you track. You would need to 
+# specify '-text -diff'. The 'binary' macro is a shortcut for that.
+#####################################################################
+*.[pP][nN][gG]          binary
+*.[jJ][pP][gG]          binary
+*.[jJ][pP][eE][gG]      binary
+*.[gG][iI][fF]          binary
+*.[tT][iI][fF]          binary
+*.[tT][iI][fF][fF]      binary
+*.[iI][cC][oO]          binary
+*.[sS][vV][gG]          binary
+*.[eE][pP][sS]          binary
+
+#####################################################################
+# Archives
+# 
+# Packaged archive files, along with images and certain miscellaneous
+# files, are sometimes stored using Git Large File System (Git LFS).
+#
+# See: https://rehansaeed.com/gitattributes-best-practices/ for
+# examples of setting gitattributes to use Git LFS.
+#
+# Unity files are also heavily dependent on Git LFS. See the site
+# below for an example of a Unity setup.
+# https://gist.github.com/inikitin/7dff06ef9b776b2d9ab92983f525c256
+#####################################################################
+*.7[zZ]                     binary
+*.[bB][rR]                  binary
+*.[bB][zZ]2                 binary
+*.[gG][zZ]                  binary
+*.[rR][aA][rR]              binary
+*.[tT][aA][rR]              binary
+*.[tT][aA][rR].[gG][zZ]     binary
+*.[tT][gG][zZ]              binary
+*.[zZ][iI][pP]              binary
+
+#####################################################################
+# Set the merge driver for project and solution files
+#
+# Merging from the command prompt will add diff markers to the files
+# if there are conflicts (Merging from VS is not affected by the 
+# settings below, in VS the diff markers are never inserted). Diff 
+# markers may cause the following file extensions to fail to load in 
+# VS. An alternative would be to treat these files as binary and thus 
+# will always conflict and require user intervention with every  
+# merge. merge=binary forces command line merges to require user 
+# intervention.
+#####################################################################
+*.sln       merge=binary
+*.csproj    merge=binary
+*.vbproj    merge=binary
+*.vcxproj   merge=binary
+*.vcproj    merge=binary
+*.dbproj    merge=binary
+*.fsproj    merge=binary
+*.lsproj    merge=binary
+*.wixproj   merge=binary
+*.modelproj merge=binary
+*.sqlproj   merge=binary
+*.wwaproj   merge=binary
+
+*.xproj     merge=binary
+*.props     merge=binary
+*.filters   merge=binary
+*.vcxitems  merge=binary
+
+#####################################################################
+# Exclude files from exporting
+#####################################################################
+.gitattributes export-ignore
+.gitignore     export-ignore
+.gitkeep       export-ignore
