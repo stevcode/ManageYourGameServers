@@ -1,4 +1,6 @@
-﻿namespace ManageYourGameServers.Core.Services;
+﻿using System.IO.Compression;
+
+namespace ManageYourGameServers.Core.Services;
 
 public class SteamCmdService
 {
@@ -16,6 +18,21 @@ public class SteamCmdService
             using var fileStream = File.Create(downloadPath);
 
             await stream.CopyToAsync(fileStream);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+    }
+
+    public async Task ExtractSteamCmdExecutableAsync()
+    {
+        var downloadPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "steamcmd.zip");
+        var extractionPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+
+        try
+        {
+            await Task.Run(() => ZipFile.ExtractToDirectory(downloadPath, extractionPath));
         }
         catch (Exception ex)
         {
